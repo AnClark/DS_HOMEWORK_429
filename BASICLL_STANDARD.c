@@ -1,3 +1,8 @@
+/**
+* Basic Linkedlist homework
+* NOTICE: Linkedlist here has leading node.
+*/
+
 #include<stdio.h>
 #include<malloc.h>
 
@@ -20,6 +25,7 @@ struct node *createLinkedList()
 	tail->next = NULL;
 	head->next = tail;
 
+	// INTERACTIVE FUNCTION
 	// Add nodes. 0 for EOL.
 	while (scanf("%d", &d) && d != 0)
 	{
@@ -40,14 +46,69 @@ void printLinkedList(struct node *head)
 	p = head->next;
 
 	printf("\n====== Your linked list ======\n");
-	 while ((p != NULL) && (p = p->next))
+	while ((p != NULL) && (p = p->next))
 		printf("%d  ", p->data);
 }
 
+
+void removeNodeByPosition(struct node *head, int i)
+{
+	// NOTICE: Position starts from 1 instead of 0. (Not correspond with
+	// book?)
+	struct node *n, *q;
+	int j = 0;
+
+	n = head->next;
+
+	while (n->next != NULL && j != i - 1)
+	{
+		n = n->next;
+		j++;
+	}
+
+	if (n->next == NULL)
+	{
+		printf("** Not found");
+		return;
+	}
+
+	q = n->next;
+	n->next = q->next;
+	free(q);
+
+}
+
+
+void removeNodeByData(struct node *head, int data)
+{
+}
+
+
+void appendNodeToEnd(struct node *head, int data)
+{
+}
+
+
+void insertNodeBeforePosition(struct node *head, int i, int data)
+{
+}
+
+
+
 int main()
 {
+	int a;
+
 	struct node *head;
 	head = createLinkedList();
 
 	printLinkedList(head);
+
+	printf("\nWhich to remove? Input<0 to break.  ");
+	while (scanf("%d", &a) && a >= 0)
+	{
+		removeNodeByPosition(head, a);
+		printLinkedList(head);
+		printf("\n");
+	}
 }
