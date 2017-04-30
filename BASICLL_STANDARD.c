@@ -60,7 +60,7 @@ void removeNodeByPosition(struct node *head, int i)
 
 	n = head->next;
 
-	while (n->next != NULL && j != i - 1)
+	while (n->next != NULL && j < i)
 	{
 		n = n->next;
 		j++;
@@ -81,16 +81,38 @@ void removeNodeByPosition(struct node *head, int i)
 
 void removeNodeByData(struct node *head, int data)
 {
+	struct node *p, *q;
+	p = head;
+
+	while (p->next != NULL && p->next->data != data)
+		p = p->next;
+
+	if (p->next == NULL)
+	{
+		printf("** Not found");
+		return;
+	}
+	
+	q=p->next;
+	p->next=q->next;
+	free(q);
 }
 
 
-void appendNodeToEnd(struct node *head, int data)
-{
-}
 
-
-void insertNodeBeforePosition(struct node *head, int i, int data)
+void insertNodeBeforePosition(struct node *head, int i, int newdata)
 {
+	struct node *p, *f;
+	int j=0;
+	
+	p=head->next;
+	
+	//Locate to where we insert
+	while(p->next != NULL && j < i){
+		p=p->next;
+		j++;
+		}
+	
 }
 
 
@@ -104,6 +126,9 @@ int main()
 
 	printLinkedList(head);
 
+#define TEST_REMOVE_BY_POSITION
+
+#ifdef TEST_REMOVE_BY_POSITION
 	printf("\nWhich to remove? Input<0 to break.  ");
 	while (scanf("%d", &a) && a >= 0)
 	{
@@ -111,4 +136,17 @@ int main()
 		printLinkedList(head);
 		printf("\n");
 	}
+#endif
+
+#ifdef TEST_REMOVE_BY_DATA
+	printf("\nWhich data do you wanna remove?\n");
+		while (scanf("%d", &a) && a >= 0)
+	{
+		removeNodeByData(head, a);
+		printLinkedList(head);
+		printf("\n");
+	}
+#endif
+
+puts("----------- FINISHED -----------");
 }
