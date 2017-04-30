@@ -31,6 +31,7 @@ int main()
 	p->next = f;
 
 	// Input the following node. 0 for EOL.
+	// My algorithms: insert new node between head and the node following head.
 	while (scanf("%d", &d) && d != 0)
 	{
 		f = malloc(sizeof(struct Node));
