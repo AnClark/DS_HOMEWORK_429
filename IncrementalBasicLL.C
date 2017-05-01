@@ -25,7 +25,7 @@ int main()
 	puts("Now input number you want to add to linked list. 0 for EOL.");
 	while (scanf("%d", &d) && d != 0)
 	{
-		// Find out a suitable point
+		// Find out somewhere suitable
 		p = head->next;
 		while (p->next != NULL && p->next->data <= d)
 			p = p->next;
