@@ -24,28 +24,19 @@ struct node *createLinkedListIncremental()
 	f->next = NULL;
 	head->next = f;
 
-	p = head->next;
-
 	// Create the following nodes
 	while (scanf("%d", &d) && d != 0)
-
 	{
+		// Find out somewhere to insert
+		p = head;
+		while (p->next != NULL && p->next->data < d)
+			p = p->next;
+
+		// Then, insert
 		f = malloc(sizeof(node));
 		f->data = d;
-		
-		if (d < p->data)
-		{
-			head->next = f;
-			f->next = p;
-			p=head->next;
-		}
-		else
-		{
-			f->next = NULL;
-			p->next = f;
-			p=f;
-		}
-        
+		f->next = p->next;
+		p->next = f;
 	}
 
 	return head;
