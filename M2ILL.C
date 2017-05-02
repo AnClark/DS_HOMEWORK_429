@@ -53,7 +53,33 @@ void printLinkedList(struct node *head)
 		printf("%d  ", p->data);
 		p = p->next;
 	}
-	puts("\n----------------------");
+	puts("\n--------------------------------------------");
+
+}
+
+
+struct node *startMerge(struct node *head1, struct node *head2)
+{
+	struct node *p, *q, *f;
+	p = head1;
+	q = head2->next;
+
+	// Traverse all the nodes in list2,
+	// then find somewhere suitable to insert in list1.
+	while (q != NULL)
+	{
+		while (p->next != NULL && p->next->data < q->data)
+			p = p->next;
+
+		f = q;
+		q = q->next;
+		 f->next = p->next;
+		p->next = f;
+
+	}
+	
+	free(head2);
+	return head1;
 
 }
 
@@ -69,5 +95,6 @@ int main()
 	head2 = createLinkedListIncremental();
 	printLinkedList(head2);
 
-
+    puts("\n\n----------- MERGED LIST -----------");
+    printLinkedList(startMerge(head1, head2));
 }
