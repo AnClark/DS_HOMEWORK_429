@@ -1,9 +1,8 @@
 // Merge two incremental linked lists.
-// NOTICE: Linked list here have no leading node!!!
+// NOTICE: Linked list here have NO LEADING NODE!!!
 #include<stdio.h>
 #include<malloc.h>
-
-typedef struct node
+ typedef struct node
 {
 	int data;
 	struct node *next;
@@ -68,17 +67,23 @@ struct node *startMerge(struct node *head1, struct node *head2)
 	// then find somewhere suitable to insert in list1.
 	while (q != NULL)
 	{
+		// Find somewhere to insert
 		while (p->next != NULL && p->next->data < q->data)
 			p = p->next;
 
+        //Then, RELINK node in list2
+        // By relinking, you can save a lot of time and space!
 		f = q;
 		q = q->next;
-		 f->next = p->next;
+		f->next = p->next;
 		p->next = f;
 
 	}
-	
+
+    // At this time, nodes in list2 are all relinked out. So just delete it.
 	free(head2);
+	
+	// All nodes are merged to list1.
 	return head1;
 
 }
@@ -95,6 +100,6 @@ int main()
 	head2 = createLinkedListIncremental();
 	printLinkedList(head2);
 
-    puts("\n\n----------- MERGED LIST -----------");
-    printLinkedList(startMerge(head1, head2));
+	puts("\n\n----------- MERGED LIST -----------");
+	printLinkedList(startMerge(head1, head2));
 }
