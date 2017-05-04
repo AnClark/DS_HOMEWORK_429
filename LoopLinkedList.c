@@ -106,7 +106,42 @@ void removeNodeByPosition(struct node *head, int position)
 
 }
 
-#define TEST_REMOVE_BY_POSITION
+
+void insertNodeBeforePosition(struct node *head, int position, int data)
+{
+	struct node *p, *first, *f;
+	int i = 1;
+
+	// Check if position value invalid
+	int len = countLoopedLinkedListNodes(head);
+	if (position < 0 || position > len)
+	{
+		puts("*** FATAL: Invalid position! ***");
+		return;
+	}
+
+	// Initialize
+	first = head->next;
+	p = first;
+
+	// Find out somewhere to insert
+	while (p->next != first && i < position)
+	{
+		p = p->next;
+		i++;
+	}
+
+	// Now let's insert
+	f = malloc(sizeof(node));
+	f->data = data;
+
+	f->next = p->next;
+	p->next = f;
+}
+
+
+// #define TEST_REMOVE_BY_POSITION
+#define TEST_INSERT_BEFORE_POSITION
 int main()
 {
 	struct node *head;
@@ -137,4 +172,15 @@ int main()
 	}
 #endif
 
+
+#ifdef TEST_INSERT_BEFORE_POSITION
+	int p, d;
+	puts("\nNow test inserting nodes before position. Position starts from 1; 0 for EOL.");
+	while (scanf("%d%d", &p, &d) && p != 0)
+	{
+		insertNodeBeforePosition(head, p, d);
+		printLinkedList(head);
+	}
+#endif
 }
+
