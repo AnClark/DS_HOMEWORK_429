@@ -85,13 +85,78 @@ void removeNodeByData(struct node *head, int data)
 
 }
 
+
 void insertNodeBeforePosition(struct node *head, int position, int data)
 {
+	struct node *p, *f;
+	int i = 1;
+
+	// Initialize
+	p = head->next->next;
+
+	// Find out somewhere to insert
+	while (p != NULL && i < position)
+	{
+		p = p->next;
+		i++;
+	}
+
+	// Check if out of range
+	if (p == NULL)
+	{
+		puts("*** FATAL: Not found! ***");
+		return;
+	}
+
+	// Then, insert
+	f = malloc(sizeof(node));
+	f->data = data;
+
+	f->next=p;
+	f->prev=p->prev;
 	
+	p->prev->next=f;
+	p->prev=f;
 }
 
 
-#define TEST_REMOVE_BY_DATA
+void insertNodeAfterPosition(struct node *head, int position, int data)
+{
+	struct node *p, *f;
+	int i = 1;
+
+	// Initialize
+	p = head->next->next;
+
+	// Find out somewhere to insert
+	while (p != NULL && i < position)
+	{
+		p = p->next;
+		i++;
+	}
+
+	// Check if out of range
+	if (p == NULL)
+	{
+		puts("*** FATAL: Not found! ***");
+		return;
+	}
+
+	// Then, insert
+	f = malloc(sizeof(node));
+	f->data = data;
+
+	f->next = p->next;
+	f->prev = p;
+
+	p->next->prev = f;
+	p->next = f;
+
+}
+
+
+//#define TEST_REMOVE_BY_DATA
+#define TEST_INSERT_BEFORE_POSITION
 int main()
 {
 	struct node *head;
@@ -109,6 +174,16 @@ int main()
 #endif
 
 #ifdef TEST_INSERT_BEFORE_POSITION
-
+	int d, p;
+	puts("Now let's test inserting a node before position, position=0 for EOL.");
+	while (scanf("%d%d", &p, &d) && p != 0)
+	{
+		insertNodeBeforePosition(head, p, d);
+		printLinkedList(head);
+	}
+	
 #endif
+
+    puts("\n----------- FINISHED -----------");
 }
+
