@@ -59,24 +59,29 @@ void Homework430(struct node *head)
 	struct node *p, *q, *r;
 	int currData;
 
-	p = head->next;
+	p = head->next->next;
 
 	// Loop Level 1: Pick a number
-	while ((p != NULL) && (p = p->next))
+	while (p != NULL)
 	{
 		currData = p->data;
 
 		// Loop Level 2: Remove numbers with same abs
 		q = p;
-		while ((q->next != NULL) && (q = q->next))
+		while (q->next != NULL)
 		{
-			if (abs(currData) == abs(q->data))
+			if (abs(currData) == abs(q->next->data))
 			{
 				r = q->next;
 				q->next = r->next;
 				free(r);
 			}
+
+			if (q->next != NULL)
+				q = q->next;
 		}
+
+		p = p->next;
 	}
 }
 
@@ -94,4 +99,3 @@ int main()
 	printLinkedList(head);
 
 }
-
