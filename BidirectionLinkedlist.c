@@ -85,6 +85,12 @@ void removeNodeByData(struct node *head, int data)
 
 }
 
+void insertNodeBeforePosition(struct node *head, int position, int data)
+{
+	
+}
+
+
 #define TEST_REMOVE_BY_DATA
 int main()
 {
@@ -101,5 +107,8 @@ int main()
 		printLinkedList(head);
 	}
 #endif
-}
 
+#ifdef TEST_INSERT_BEFORE_POSITION
+
+#endif
+}
