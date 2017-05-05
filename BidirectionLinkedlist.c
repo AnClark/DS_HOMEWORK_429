@@ -34,10 +34,11 @@ struct node *createLinkedList()
 		f->prev = p;
 		p->next = f;
 		f->next = NULL;
+
 		p = p->next;
 	}
 
-    return head;
+	return head;
 }
 
 void printLinkedList(struct node *head)
@@ -55,10 +56,49 @@ void printLinkedList(struct node *head)
 }
 
 
-int main()
+void removeNodeByData(struct node *head, int data)
 {
-    struct node *head;
-    head=createLinkedList();
-    printLinkedList(head);
+	// Benefit of using bidirection linked list:
+	// You can just use one pointer to remove/insert nodes.
+
+	// Initialize
+	struct node *p;
+	p = head->next->next;
+
+	// Find out the node we want to remove
+	while (p != NULL && p->data != data)
+		p = p->next;
+
+	// If not found, give out error msg, then exit
+	if (p == NULL)
+	{
+		puts("*** FATAL: Node not found! ***");
+		return;
+	}
+
+	// If found, then remove it
+	// NOTICE: Must handle removing the last node properly!
+	p->prev->next = p->next;
+	if (p->next)
+		p->next->prev = p->prev;
+	free(p);
+
 }
 
+#define TEST_REMOVE_BY_DATA
+int main()
+{
+	struct node *head;
+	head = createLinkedList();
+	printLinkedList(head);
+
+#ifdef TEST_REMOVE_BY_DATA
+	int d;
+	puts("Now let's test removing a node by data. 0 for EOL.");
+	while (scanf("%d", &d) && d != 0)
+	{
+		removeNodeByData(head, d);
+		printLinkedList(head);
+	}
+#endif
+}
