@@ -54,9 +54,25 @@ void enQueue(LinkedQueue * Q, int data)
 	Q->rear = f;
 }
 
-int deQueue(LinkedQueue * queue)
+void deQueue(LinkedQueue * Q, int &out)
 {
+	struct QNode *p;
 
+	if (Q->front == Q->rear)
+	{
+		puts("*** NOTICE: LinkedQueue is empty now! ***");
+		*out = 0;
+		return;
+	}
+
+	p = Q->front->next;
+	*out = p->data;
+
+	Q->front->next = p->next;
+	if (Q->rear == p)
+		Q->rear = Q->front;
+
+	free(p);
 }
 
 int main()
@@ -64,10 +80,39 @@ int main()
 	struct LinkedQueue *Q;
 	Q = initQueue();
 
-	int d;
-	while (scanf("%d", &d) && d != 0)
+	int d, out;
+	char cmd;
+
+	puts("Usage: <command> [<value>]");
+	puts("\tCommand list:");
+	puts("\te <value>\tEnqueue");
+	puts("\td \t\tDequeue");
+	puts("\tq \t\tExit");
+
+	while (scanf("%c", &cmd))
 	{
-		enQueue(Q, d);
-		printQueue(Q);
+		switch (cmd)
+		{
+		case 'e':
+			scanf("%d", &d);
+			enQueue(Q, d);
+			printQueue(Q);
+			break;
+		case 'd':
+			deQueue(Q, out);
+			if (out)
+				printf("Dequeued value:\t%d\n", out);
+			else
+				printf("No value dequeued\n");
+			break;
+		case 'q':
+			break;
+		default:
+			puts("*** ERROR: Invalid command! ***");
+			break;
+		}
+
 	}
+
+	puts("\n----------- FINISHED -----------");
 }
