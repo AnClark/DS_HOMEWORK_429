@@ -54,7 +54,7 @@ void enQueue(LinkedQueue * Q, int data)
 	Q->rear = f;
 }
 
-void deQueue(LinkedQueue * Q, int &out)
+void deQueue(LinkedQueue * Q, int *out)
 {
 	struct QNode *p;
 
@@ -89,8 +89,9 @@ int main()
 	puts("\td \t\tDequeue");
 	puts("\tq \t\tExit");
 
-	while (scanf("%c", &cmd))
+	while (1)
 	{
+		scanf("%c", &cmd);
 		switch (cmd)
 		{
 		case 'e':
@@ -99,20 +100,24 @@ int main()
 			printQueue(Q);
 			break;
 		case 'd':
-			deQueue(Q, out);
+			deQueue(Q, &out);
 			if (out)
+			{
 				printf("Dequeued value:\t%d\n", out);
+				printQueue(Q);
+			}
 			else
 				printf("No value dequeued\n");
+
 			break;
 		case 'q':
-			break;
-		default:
-			puts("*** ERROR: Invalid command! ***");
-			break;
+			goto exit_input;
+			// default:
+			// puts("*** ERROR: Invalid command! ***");
 		}
 
 	}
 
+  exit_input:
 	puts("\n----------- FINISHED -----------");
 }
